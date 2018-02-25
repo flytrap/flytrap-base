@@ -13,12 +13,12 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name="flytrap-base",
-    version="0.0.1",
-    author="gaohuaguang",
+    version="0.0.2",
+    author="flytrap",
     author_email="hiddenstat@gmail.com",
     description="A simple Django app to base",
     long_description=README,
-    url="https://github.com:flytrap/flytrap-base.git",
+    url="https://github.com/flytrap/flytrap-base",
     install_requires=[
         "Django>=2.0",
         "djangorestframework>=3.7.3",
