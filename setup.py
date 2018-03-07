@@ -13,7 +13,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name="flytrap-base",
-    version="0.0.2",
+    version="0.0.3",
     author="flytrap",
     author_email="hiddenstat@gmail.com",
     description="A simple Django app to base",
