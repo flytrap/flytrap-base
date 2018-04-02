@@ -39,7 +39,7 @@ class MysqlDjangoFilterBackend(DjangoFilterBackend):
             field_cls = compat.coreschema.Number
         elif isinstance(field, filters.ChoiceFilter):
             field_cls = compat.coreschema.Enum
-            enum = list(field.extra.get('choices'))
+            enum = list(field.extra.get('choices', []))
         else:
             field_cls = compat.coreschema.String
         description = six.text_type(field.extra.get('help_text', getattr(field, 'label', '')))

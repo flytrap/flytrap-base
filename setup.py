@@ -13,7 +13,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name="flytrap-base",
-    version="0.0.3",
+    version="0.0.5",
     author="flytrap",
     author_email="hiddenstat@gmail.com",
     description="A simple Django app to base",
@@ -23,7 +23,6 @@ setup(
         "Django>=2.0",
         "djangorestframework>=3.7.3",
         "django-filter>=1.1.0",
-        "django-rest-framework-mongoengine>=3.3.1"
     ],
     packages=find_packages(),
     test_suite="runtests.runtests",

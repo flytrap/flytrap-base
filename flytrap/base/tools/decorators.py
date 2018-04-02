@@ -3,6 +3,7 @@
 #
 # Created by flytrap
 from django.core.cache import cache
+from rest_framework.request import Request
 
 from flytrap.base.response import SimpleResponse
 
@@ -18,7 +19,9 @@ def _make_key(func, *args, **kwargs):
     str_list = [func.__name__]
     for arg in args:
         str_list.append(getattr(arg, 'name', arg.__class__.__name__))
-        str_list.append(getattr(arg, 'id', str(arg)))
+        if isinstance(arg, Request):
+            str_list.append('_'.join(['{}_{}'.format(k, v) for k, v in arg.query_params.items()]))
+        str_list.append(getattr(arg, 'id', getattr(arg, 'pk', '')))
     for k, v in kwargs:
         str_list.append(u'_'.join([k, str(v)]))
     return u'_'.join(map(str, str_list))

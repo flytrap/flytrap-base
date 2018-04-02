@@ -2,13 +2,10 @@
 # -*- coding: utf-8 -*-
 #
 # Created by flytrap
-from django.http.response import HttpResponseBase
 from rest_framework.generics import GenericAPIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework_mongoengine.viewsets import ModelViewSet as MongoModelViewSet
 
 from .execption import FlytrapException
-
 from .response import SimpleResponse
 
 
@@ -55,14 +52,57 @@ class ViewMixin(object):
             return SimpleResponse(self.get_data(message=str(exc)))
         return super(ViewMixin, self).handle_exception(exc)
 
+    def clean_data(self, data=None):
+        """清洗空数据"""
+        if not data:
+            data = self.request.data
+        index_list = []
+        for key, values in data.items():
+            self.clean_value(values)
+            if self.is_null(values):
+                index_list.append(key)
+        for key in index_list[::-1]:
+            del data[key]
+
+    @classmethod
+    def clean_value(cls, data):
+        """递归清洗数据"""
+        index_list = []
+        if isinstance(data, list):
+            for index, item in enumerate(data):
+                if not isinstance(item, str):
+                    cls.clean_value(item)
+                if cls.is_null(item):
+                    index_list.append(index)
+        if isinstance(data, dict):
+            for k, v in data.items():
+                if not isinstance(v, str):
+                    cls.clean_value(v)
+                if cls.is_null(v):
+                    index_list.append(k)
+        for index in index_list[::-1]:
+            del data[index]
+
+    @staticmethod
+    def is_null(value):
+        """判空"""
+        if value is False:
+            return False
+        return not bool(value)
+
+
+try:
+    from rest_framework_mongoengine.viewsets import ModelViewSet as MongoModelViewSet
+except ImportError:
+    pass
+else:
+    class BaseMongoViewSet(ViewMixin, MongoModelViewSet):
+        pass
+
 
 class BaseModeView(ViewMixin, ModelViewSet):
     pass
 
 
 class BaseViewSet(ViewMixin, GenericAPIView):
-    pass
-
-
-class BaseMongoViewSet(ViewMixin, MongoModelViewSet):
     pass
