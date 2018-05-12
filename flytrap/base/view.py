@@ -91,15 +91,6 @@ class ViewMixin(object):
         return not bool(value)
 
 
-try:
-    from rest_framework_mongoengine.viewsets import ModelViewSet as MongoModelViewSet
-except ImportError:
-    pass
-else:
-    class BaseMongoViewSet(ViewMixin, MongoModelViewSet):
-        pass
-
-
 class BaseModeView(ViewMixin, ModelViewSet):
     pass
 

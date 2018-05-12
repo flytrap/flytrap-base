@@ -8,14 +8,6 @@
 
 from rest_framework import serializers
 
-try:
-    from rest_framework_mongoengine import serializers as mongo_serializer
-except ImportError:
-    pass
-else:
-    class BaseMongoSerializer(mongo_serializer.DocumentSerializer):
-        pass
-
 
 class BaseSerializer(serializers.Serializer):
     pass
